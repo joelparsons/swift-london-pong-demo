@@ -15,6 +15,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func didMoveToView(view: SKView) {
 
+        let edgePath : CGMutablePathRef = CGPathCreateMutable()
+        CGPathMoveToPoint(edgePath, nil, 2, 0);
+        CGPathAddLineToPoint(edgePath, nil, 2, CGRectGetHeight(view.bounds) - 2.0)
+        CGPathAddLineToPoint(edgePath, nil, CGRectGetWidth(view.bounds) - 2.0, CGRectGetHeight(view.bounds) - 2.0)
+        CGPathAddLineToPoint(edgePath, nil, CGRectGetWidth(view.bounds) - 2.0, 0)
+
+        let edgebody = SKPhysicsBody(edgeChainFromPath: edgePath)
+        self.physicsBody = edgebody
+
         self.physicsWorld.gravity = CGVectorMake(0, -0.4)
         self.physicsWorld.contactDelegate = self
         let leftEdgeRect = CGRect(x:0.0, y:0.0, width:2.0, height:CGRectGetHeight(view.bounds))
@@ -71,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func didBeginContact(contact: SKPhysicsContact!) {
-        self.ball?.physicsBody.applyImpulse(CGVectorMake(0, 0.8))
+        self.ball?.physicsBody.applyImpulse(CGVectorMake(0, 1.8))
     }
    
     override func update(currentTime: CFTimeInterval) {
